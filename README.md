@@ -1,4 +1,4 @@
-# LakituBot (v1.0)
+# LakituBot
 Program calculating scores during Mario Kart 6v6 wars with User Interface  
 ![Screenshot](https://github.com/Rxdsilver/LakituBot/blob/master/LakituBOT/ressources/IMG1.PNG)
 
