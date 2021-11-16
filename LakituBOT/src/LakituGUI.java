@@ -5,6 +5,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 import javax.swing.*;
 
@@ -28,6 +31,7 @@ public class LakituGUI implements ActionListener {
 	
 	private JButton refreshButton;
 	private JButton resetButton;
+	private JButton saveButton;
 	
 	private String places[] = {"1st  ","2nd  ","3rd  ","4th  ","5th  ","6th  ",
 								"7th  ", "8th  ", "9th  ", "10th  ", "11th  ", "12th  "};
@@ -91,6 +95,7 @@ public class LakituGUI implements ActionListener {
 		
 		refreshButton = new JButton("Refresh");
 		resetButton = new JButton("Reset");
+		saveButton = new JButton("Save");
 		
 		genScore = new JLabel("0-0 (0)");
 		
@@ -99,13 +104,15 @@ public class LakituGUI implements ActionListener {
 		panel.setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 		c.insets= new Insets(5,20,0,0);
-		c.gridx = 14;
+		c.gridx = 13;
 		c.gridy = 13;
 		panel.add(refreshButton,c);
 		c.gridx = 6;
 		panel.add(genScore,c);
-		c.gridx = 13;
+		c.gridx = 12;
 		panel.add(resetButton,c);
+		c.gridx = 11;
+		panel.add(saveButton,c);
 		
 		
 		for (int i = 0; i< 12; i++) {
@@ -118,62 +125,62 @@ public class LakituGUI implements ActionListener {
 		}
 		
 		map1 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 0;
 		panel.add(map1,c);
 		
 		map2 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 1;
 		panel.add(map2,c);
 		
 		map3 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 2;
 		panel.add(map3,c);
 		
 		map4 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 3;
 		panel.add(map4,c);
 		
 		map5 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 4;
 		panel.add(map5,c);
 		
 		map6 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 5;
 		panel.add(map6,c);
 		
 		map7 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 6;
 		panel.add(map7,c);
 		
 		map8 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 7;
 		panel.add(map8,c);
 		
 		map9 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 8;
 		panel.add(map9,c);
 		
 		map10 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 9;
 		panel.add(map10,c);
 		
 		map11 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 10;
 		panel.add(map11,c);
 		
 		map12 = new JComboBox<>(maps);
-		c.gridx = 13;
+		c.gridx = 12;
 		c.gridy = 11;
 		panel.add(map12,c);
 		
@@ -187,6 +194,7 @@ public class LakituGUI implements ActionListener {
 		
 		refreshButton.addActionListener(this);
 		resetButton.addActionListener(this);
+		saveButton.addActionListener(this);
 		
 	}
 	/**
@@ -206,7 +214,7 @@ public class LakituGUI implements ActionListener {
 	 */
 	public void labelCreator(int i) {
 		score[i] = new JLabel();
-		c.gridx = 14;
+		c.gridx = 13;
 		c.gridy = i;
 		panel.add(score[i],c);
 		score[i].setText("---");
@@ -299,6 +307,58 @@ public class LakituGUI implements ActionListener {
 		return JOptionPane.showConfirmDialog(null, "Do you want to reset scores and maps?", "Select an Option...",JOptionPane.YES_NO_OPTION);
 		
 	}
+	
+	public static String StringBuild() {
+		
+		String mapsPlayed[] = new String[12];
+		mapsPlayed[0]=map1.getSelectedItem().toString();
+		mapsPlayed[1]=map2.getSelectedItem().toString();
+		mapsPlayed[2]=map3.getSelectedItem().toString();
+		mapsPlayed[3]=map4.getSelectedItem().toString();
+		mapsPlayed[4]=map5.getSelectedItem().toString();
+		mapsPlayed[5]=map6.getSelectedItem().toString();
+		mapsPlayed[6]=map7.getSelectedItem().toString();
+		mapsPlayed[7]=map8.getSelectedItem().toString();
+		mapsPlayed[8]=map9.getSelectedItem().toString();
+		mapsPlayed[9]=map10.getSelectedItem().toString();
+		mapsPlayed[10]=map11.getSelectedItem().toString();
+		mapsPlayed[11]=map12.getSelectedItem().toString();
+		
+		String content = "";
+		content+="Maps\tScores\r\n";
+		for (int i = 0;i<12;i++) {
+			content += mapsPlayed[i]+"\t"+score[i].getText()+"\r\n";
+				
+		}
+		
+		content+="\r\n"+genScore.getText();
+		System.out.println(content);
+		return content;
+		
+	}
+	public static void FileWriter(String path) {
+		try{
+			// Create new file
+			File file = new File(path);
+	
+			// If file doesn't exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+	
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+	            
+			BufferedWriter bw = new BufferedWriter(fw);
+	
+			// Write in file
+			bw.write(StringBuild());
+	
+			// Close connection
+			bw.close();
+		}catch(Exception e){
+           System.out.println(e);
+        }
+	}
 	/**
 	 * Set scores when Refresh button is clicked
 	 * Start the reset procedure when Reset button is clicked
@@ -307,11 +367,26 @@ public class LakituGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(refreshButton)) {
 			War.setScores();
-		}
+		}else
 		if (e.getSource().equals(resetButton)){
 			if (resetConfirm()==0) {
 				reset();
 			}
+		}else
+		if (e.getSource().equals(saveButton)) {
+			JFrame parentFrame = new JFrame();
+			 
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Choose location and name of the file");   
+			 
+			int userSelection = fileChooser.showSaveDialog(parentFrame);
+			 
+			if (userSelection == JFileChooser.APPROVE_OPTION) {
+			    File fileToSave = fileChooser.getSelectedFile();
+			    FileWriter(fileToSave.getAbsolutePath());
+			}
+		   
 		}
+		
 	}
 }
