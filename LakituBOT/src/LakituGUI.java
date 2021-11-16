@@ -103,6 +103,8 @@ public class LakituGUI implements ActionListener {
 		panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
 		panel.setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
+		c.weightx = 0.0;
+		c.weighty = 1.0;
 		c.insets= new Insets(5,20,0,0);
 		c.gridx = 13;
 		c.gridy = 13;
@@ -376,7 +378,7 @@ public class LakituGUI implements ActionListener {
 		if (e.getSource().equals(saveButton)) {
 			JFrame parentFrame = new JFrame();
 			 
-			JFileChooser fileChooser = new JFileChooser();
+			JFileChooser fileChooser = new JFileChooser("C:\\");
 			fileChooser.setDialogTitle("Choose location and name of the file");   
 			 
 			int userSelection = fileChooser.showSaveDialog(parentFrame);
