@@ -332,7 +332,7 @@ public class LakituGUI implements ActionListener {
 		}
 		
 		content+="\r\n"+genScore.getText();
-		System.out.println(content);
+		//System.out.println(content); # Debug purpose
 		return content;
 		
 	}
